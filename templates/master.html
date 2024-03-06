@@ -103,14 +103,14 @@
                     data-accordion="false">
                     {# dashbord menu#}
                     <li class="nav-item">
-                        <a href="#" class="nav-link {{ 'active' if module == 'dashboard' else '' }}">
+                        <a href="{{ url_for('dashboard') }}" class="nav-link {{ 'active' if module == 'dashboard' else '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     {# user menu#}
                     <li class="nav-item">
-                        <a href="#" class="nav-link {{ 'active' if module == 'user' else '' }}">
+                        <a href="{{  url_for('user') }}" class="nav-link {{ 'active' if module == 'user' else '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>User</p>
                         </a>
