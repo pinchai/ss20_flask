@@ -23,11 +23,6 @@ std_list = [
 
 
 @app.route('/')
-def index():
-    module = 'master'
-    return render_template('master.html', module=module)
-
-
 @app.route('/dashboard')
 def dashboard():
     module = 'dashboard'
@@ -40,12 +35,22 @@ def user():
     return render_template('user.html', module=module, data=std_list)
 
 
+@app.route('/add_user')
+def add_user():
+    module = 'user'
+    return render_template('add_user.html', module=module)
+
+
 @app.route('/edit_user/<int:user_id>')
 def edit_user(user_id):
     module = 'user'
     user_id = user_id
-    # return f"User ID : {user_id}"
-    return render_template('edit_user.html', module=module, data=std_list)
+    current_user = []
+    for item in std_list:
+        if user_id == item['id']:
+            current_user = item
+
+    return render_template('edit_user.html', module=module, data=current_user)
 
 
 @app.errorhandler(404)
