@@ -58,12 +58,14 @@
                                             <td>{{ item['email'] }}</td>
                                             <td>{{ item['address'] }}</td>
                                             <td>
-                                                <button
-                                                        class="btn btn-sm btn-outline-success"
-                                                >
-                                                    <i class="fas fa-eye"></i>
-                                                    View
-                                                </button>
+                                                <a href="/view_user?name={{ item['name'] }}">
+                                                    <button
+                                                            class="btn btn-sm btn-outline-success"
+                                                    >
+                                                        <i class="fas fa-eye"></i>
+                                                        View
+                                                    </button>
+                                                </a>
                                                 <a href="/edit_user/{{ item['id'] }}">
                                                     <button
                                                             class="btn btn-sm btn-outline-secondary"
@@ -72,13 +74,14 @@
                                                         Edit
                                                     </button>
                                                 </a>
-
-                                                <button
-                                                        class="btn btn-sm btn-outline-danger"
-                                                >
-                                                    <i class="fas fa-trash-restore"></i>
-                                                    Delete
-                                                </button>
+                                                <a href="/confirm_delete_user?name={{ item['name'] }}">
+                                                    <button
+                                                            class="btn btn-sm btn-outline-danger"
+                                                    >
+                                                        <i class="fas fa-trash-restore"></i>
+                                                        Delete
+                                                    </button>
+                                                </a>
                                             </td>
                                         </tr>
                                     {% endfor %}

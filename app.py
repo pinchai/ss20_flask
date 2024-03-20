@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
@@ -39,6 +39,24 @@ def user():
 def add_user():
     module = 'user'
     return render_template('add_user.html', module=module)
+
+
+@app.route('/view_user')
+def view_user():
+    module = 'user'
+    current_user = request.args.get('name', default='all', type=str)
+    user_dict = filter(lambda x: x['name'] == current_user, std_list)
+    user_list = list(user_dict)
+    return render_template('view_user.html', module=module, data=user_list[0])
+
+
+@app.route('/confirm_delete_user')
+def confirm_delete_user():
+    module = 'user'
+    current_user = request.args.get('name', default='all', type=str)
+    user_dict = filter(lambda x: x['name'] == current_user, std_list)
+    user_list = list(user_dict)
+    return render_template('confirm_delete_user.html', module=module, data=user_list[0])
 
 
 @app.route('/edit_user/<int:user_id>')
