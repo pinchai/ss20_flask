@@ -35,7 +35,7 @@
                         <div class="card-body">
                             <form
                                     method="post"
-                                    action="#"
+                                    action="{{ url_for('create_user') }}"
                                     enctype="multipart/form-data"
                             >
                                 <input
@@ -89,6 +89,7 @@
                                         <textarea
                                                 class="form-control"
                                                 id="address"
+                                                name="address"
                                                 rows="5"
                                         ></textarea>
                                     </div>
