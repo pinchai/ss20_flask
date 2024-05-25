@@ -1,25 +1,25 @@
 from flask import Flask, render_template, request
-
+import sqlite3
 app = Flask(__name__)
 
-std_list = [
-    {
-        'id': 10,
-        'name': 'pinchai',
-        'gender': 'male',
-        'phone': '099 774 967',
-        'email': 'pinchai.pc@gmail.com',
-        'address': 'PhnomPenh',
-    },
-    {
-        'id': 12,
-        'name': 'sreypich',
-        'gender': 'female',
-        'phone': '010 774 967',
-        'email': 'sreypich@gmail.com',
-        'address': 'Takeo',
-    }
-]
+cnn = sqlite3.connect('ss20_db.sqlite3')
+cour = cnn.cursor()
+student = cour.execute("""SELECT * FROM student""")
+cnn.commit()
+
+std_list = []
+for row in student:
+    std_list.append(
+        {
+            'id': row[0],
+            'name': row[1],
+            'gender': row[2],
+            'phone': row[3],
+            'email': row[4],
+            'address': row[5],
+        }
+    )
+
 
 
 @app.route('/')
