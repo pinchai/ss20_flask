@@ -21,7 +21,6 @@ for row in student:
     )
 
 
-
 @app.route('/')
 @app.route('/dashboard')
 def dashboard():
