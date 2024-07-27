@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raw JS</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+          integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-4 mt-4">
+            <div class="card" style="box-shadow: 2px 3px 5px gray;">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Gender</label>
+                            <select class="form-control" id="name">
+                                <option>male</option>
+                                <option>female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" class="form-control" id="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email">
+                        </div>
+                        <button type="submit" class="btn btn-primary float-right">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-8 mt-4">
+            <div class="card" style="box-shadow: 2px 3px 5px gray;">
+                <div class="card-body">
+                    <table class="table table-striped table-border">
+                        <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Gender</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>dara</td>
+                            <td>male</td>
+                            <td>099 88 73 553</td>
+                            <td>dara@mail.com</td>
+                            <td>
+                                <input type="button" class="btn btn-outline-danger" value="delete">
+                                <input type="button" class="btn btn-outline-warning" value="edit">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>kanha</td>
+                            <td>female</td>
+                            <td>099 88 73 553</td>
+                            <td>kanha@mail.com</td>
+                            <td>
+                                <input type="button" class="btn btn-outline-danger" value="delete">
+                                <input type="button" class="btn btn-outline-warning" value="edit">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

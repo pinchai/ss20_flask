@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Raw JS</title>
+</head>
+<body>
+<div id="app">
+    <center>
+        <h3>Calculator</h3>
+        <label for="value_a">Value A</label>
+        <input :disabled="disable_a" id="value_a" type="number" v-model="value_a">
+        <br>
+        <br>
+        <label for="value_b">Value B</label>
+        <input id="value_b" type="number" v-model="value_b">
+        <br>
+        <br>
+        <input type="button" value="Sum" @click="sum">
+        <input type="button" value="Minus" @click="minus">
+        <input type="button" value="Multiply" @click="multiply">
+        <input type="button" value="Divide" @click="divide">
+        <br>
+        <br>
+        <h3 :style="style">Result(A {{ ops }} B) : {{ result }}</h3>
+        <img :src="'./'+image">
+        <hr>
+        <input type="button" value="disable input A" @click="disableA">
+        <input type="button" value="change color" @click="change_color">
+        <input type="button" value="change image" @click="change_image">
+    </center>
+</div>
+</body>
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script>
+    const {createApp} = Vue
+    createApp({
+        created() {
+            //alert("Good morning")
+        },
+        data() {
+            return {
+                value_a: 0,
+                value_b: 0,
+                result: 0,
+                ops: '+',
+                msg: "hello",
+                disable_a: false,
+                style: 'color: green',
+                image: '1.gif'
+            }
+        },
+        methods: {
+            sum() {
+                this.ops = '+'
+                this.result = this.value_a + this.value_b
+            },
+            minus() {
+                this.ops = '-'
+                this.result = this.value_a - this.value_b
+            },
+            multiply() {
+                this.ops = 'x'
+                this.result = this.value_a * this.value_b
+            },
+            divide() {
+                this.ops = '/'
+                this.result = this.value_a / this.value_b
+            },
+            greeting() {
+                alert("Good morning")
+            },
+            disableA() {
+                this.disable_a = !this.disable_a
+            },
+            change_color() {
+                this.style = 'color: red'
+            },
+            change_image() {
+                this.image = '2.png'
+            }
+        }
+    }).mount('#app')
+</script>
+</html>
