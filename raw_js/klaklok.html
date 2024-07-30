@@ -7,7 +7,7 @@
     <title>KLAKLOk</title>
 </head>
 <style>
-    .checked{
+    .checked {
         background-color: gray;
         width: 100px;
         border-radius: 16px;
@@ -68,7 +68,6 @@
     const {createApp} = Vue
     createApp({
         created() {
-            //this.greeting()
         },
         data() {
             return {
@@ -84,6 +83,12 @@
         },
         methods: {
             random() {
+                let bet = this.arr_bet;
+                let top_3_bet = bet.sort((a, b) => b - a).slice(0, 3);
+                let top_3_bet_index = []
+                //console.log(top_3_bet);
+                //return;
+
                 let vm = this
                 this.current_sound = new Audio('./sound/playing.mp3');
                 this.current_sound.play()
@@ -155,9 +160,6 @@
                 }
 
             },
-            greeting(){
-                alert(1)
-            }
         }
     }).mount('#app')
 </script>

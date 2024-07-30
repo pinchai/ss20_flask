@@ -7,35 +7,31 @@
     <title>KLAKLOk</title>
 </head>
 <style>
-    .checked{
+    .checked {
         background-color: gray;
-        width: 100px;
-        border-radius: 16px;
+        width: 500px;
+        border-radius: 50px;
     }
 </style>
 <body>
 <div id="app">
-    <center>
-        <h3></h3>
-    </center>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">1</div>
+        </div>
+    </div>
 </div>
 </body>
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script>
 <script>
     const {createApp} = Vue
     createApp({
+        data(){
+            return {
+                product_list: []
+            }
+        },
         created() {
-            var student_name = []
-            //push data to stack
-            student_name.push('rotha')
-            student_name.push('davith')
-            student_name.push('davuth')
-            //pop
-            student_name.pop()
-            student_name.pop()
-            student_name.pop()
-            student_name.pop()
-            console.log(student_name)
         },
     }).mount('#app')
 </script>
