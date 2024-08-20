@@ -1,87 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Cards</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #2e2e2e; /* Dark background similar to the image */
-            color: #fff; /* White text for contrast */
-        }
-        .movie-card {* Slightly lighter dark background for the cards */
-            border: none;
-            border-radius: 10px;
-        }
-        .movie-card img {
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-        }
-        .badge {
-            font-size: 0.75rem;
-            padding: 0.4em 0.6em;
-        }
-        .card-title {
-            font-size: 1rem;
-            margin-bottom: 0.2rem;
-        }
-        .card-text {
-            font-size: 0.9rem;
-        }
-        .movie-card-container {
-            margin-bottom: 15px;
-        }
-    </style>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
 </head>
 <body>
 
-<div class="container mt-4">
-    <div class="row">
-        <div class="col-md-3 movie-card-container">
-            <div class="card movie-card">
-                <img src="https://tickets.legend.com.kh/CDN/media/entity/get/Movies/HO00001699" class="card-img-top" alt="Tenant, The">
-                <div class="card-body">
-                    <h5 class="card-title">Tenant, The</h5>
-                    <p class="card-text">09 Aug 2024</p>
-                    <span class="badge bg-light text-dark">NC15</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 movie-card-container">
-            <div class="card movie-card">
-                <img src="https://tickets.legend.com.kh/CDN/media/entity/get/Movies/HO00001620" class="card-img-top" alt="Meeting with Pol Pot">
-                <div class="card-body">
-                    <h5 class="card-title">Meeting with Pol Pot</h5>
-                    <p class="card-text">09 Aug 2024</p>
-                    <span class="badge bg-light text-dark">G</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 movie-card-container">
-            <div class="card movie-card">
-                <img src="https://tickets.legend.com.kh/CDN/media/entity/get/Movies/HO00001572" class="card-img-top" alt="Borderlands">
-                <div class="card-body">
-                    <h5 class="card-title">Borderlands</h5>
-                    <p class="card-text">09 Aug 2024</p>
-                    <span class="badge bg-light text-dark">G</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3 movie-card-container">
-            <div class="card movie-card">
-                <img src="https://tickets.legend.com.kh/CDN/media/entity/get/Movies/HO00001680" class="card-img-top" alt="Oh My Ghost the Final">
-                <div class="card-body">
-                    <h5 class="card-title">Oh My Ghost the Final</h5>
-                    <p class="card-text">08 Aug 2024</p>
-                    <span class="badge bg-light text-dark">NC15</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
+<script>
+    var student_list = []
+    student_list.push("dara")
+    student_list.push("thida")
+    student_list.push("nana")
+    /*------*/
+    student_list.pop()
+    student_list.pop()
+    student_list.pop()
+    student_list.pop()
+    console.log(student_list)
+</script>
 </html>
