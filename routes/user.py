@@ -1,80 +1,38 @@
 from app import app, render_template, request
-import sqlite3
+from sqlalchemy import create_engine, text
 
-cnn = sqlite3.connect('ss20_db.sqlite3')
-cour = cnn.cursor()
-student = cour.execute("""SELECT * FROM student""")
-cnn.commit()
-
-std_list = []
-for row in student:
-    std_list.append(
-        {
-            'id': row[0],
-            'name': row[1],
-            'gender': row[2],
-            'phone': row[3],
-            'email': row[4],
-            'address': row[5],
-        }
-    )
+try:
+    engine = create_engine("mysql+mysqlconnector://root:mysql@127.0.0.1/ss20_db")
+    # Test the connection
+    connection = engine.connect()
+except Exception as e:
+    print(e)
 
 
 @app.route('/user')
 def user():
     module = 'user'
-    return render_template('user.html', module=module, data=std_list)
+    return render_template('user.html', module=module)
 
 
-@app.route('/add_user')
-def add_user():
-    module = 'user'
-    return render_template('add_user.html', module=module)
+@app.get('/userList')
+def userList():
+    result = connection.execute(text("SELECT * FROM user"))
+    data = result.fetchall()
+    connection.commit()
+    for item in data:
+        print(item)
+    return ''
 
 
-@app.post('/create_user')
-def create_user():
-    name = request.form.get('name')
-    gender = request.form.get('gender')
-    email = request.form.get('email')
-    phone = request.form.get('phone')
-    address = request.form.get('address')
-    user = {
-        'name': name,
-        'gender': gender,
-        'email': email,
-        'phone': phone,
-        'address': address,
-    }
-    module = 'user'
-    return user
+@app.post('/saveRecord')
+def saveRecord():
+    form = request.get_json()
+    name = form.get('name')
+    gender = form.get('gender')
+    phone = form.get('phone')
+    email = form.get('email')
+    address = form.get('address')
 
+    return f"{name} - {gender} - {phone} - {email} - {address}"
 
-@app.route('/view_user')
-def view_user():
-    module = 'user'
-    current_user = request.args.get('name', default='all', type=str)
-    user_dict = filter(lambda x: x['name'] == current_user, std_list)
-    user_list = list(user_dict)
-    return render_template('view_user.html', module=module, data=user_list[0])
-
-
-@app.route('/confirm_delete_user')
-def confirm_delete_user():
-    module = 'user'
-    current_user = request.args.get('name', default='all', type=str)
-    user_dict = filter(lambda x: x['name'] == current_user, std_list)
-    user_list = list(user_dict)
-    return render_template('confirm_delete_user.html', module=module, data=user_list[0])
-
-
-@app.route('/edit_user/<int:user_id>')
-def edit_user(user_id):
-    module = 'user'
-    user_id = user_id
-    current_user = []
-    for item in std_list:
-        if user_id == item['id']:
-            current_user = item
-
-    return render_template('edit_user.html', module=module, data=current_user)
