@@ -20,9 +20,19 @@ def userList():
     result = connection.execute(text("SELECT * FROM user"))
     data = result.fetchall()
     connection.commit()
+    user_list = []
     for item in data:
-        print(item)
-    return ''
+        user_list.append(
+            {
+                "id": item[0],
+                "name": item[1],
+                "gender": item[2],
+                "phone": item[3],
+                "email": item[4],
+                "address": item[5],
+            }
+        )
+    return user_list
 
 
 @app.post('/saveRecord')
@@ -34,5 +44,8 @@ def saveRecord():
     email = form.get('email')
     address = form.get('address')
 
+    result = connection.execute(text(f"INSERT INTO `user` VALUES(null,'{name}', '{gender}', '{phone}', '{email}', '{address}')"))
+    connection.commit()
+    print(result)
     return f"{name} - {gender} - {phone} - {email} - {address}"
 

@@ -194,6 +194,7 @@
         createApp({
             delimiters: ['[[', ']]'],
             created() {
+                this.getUserList()
             },
             data() {
                 return {
@@ -204,32 +205,20 @@
                         'email': '@mail.com',
                         'address': null,
                     },
-                    user_list: [
-                        {
-                            "name": "dara",
-                            "gender": "male",
-                            "phone": "099 886 754",
-                            "email": "test@mail.com",
-                            "address": "SiemReap",
-                        },
-                        {
-                            "name": "thida",
-                            "gender": "female",
-                            "phone": "099 4345 754",
-                            "email": "thida@mail.com",
-                            "address": "PP",
-                        }
-
-                    ]
+                    user_list: []
                 }
             },
             methods: {
                 saveRecord() {
                     let vm = this
+                    $.LoadingOverlay("show");
                     let api_url = 'http://127.0.0.1:5000/saveRecord'
                     axios.post(api_url, vm.form)
                         .then(function (response) {
                             console.log(response)
+                            $.LoadingOverlay("hide");
+                            vm.clearForm()
+                            vm.getUserList()
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -261,6 +250,27 @@
                     this.form.email = item.email
                     this.form.address = item.address
                     $('#popup_modal').modal('show')
+                },
+                getUserList() {
+                    let vm = this
+                    $.LoadingOverlay("show");
+                    let api_url = 'http://127.0.0.1:5000/userList'
+                    axios.get(api_url)
+                        .then(function (response) {
+                            vm.user_list = response.data
+                            $.LoadingOverlay("hide");
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                },
+                clearForm() {
+                    this.form.name = null
+                    this.form.gender = 'female'
+                    this.form.phone = null
+                    this.form.email = '@mail.com'
+                    this.form.address = null
+                    $('#popup_modal').modal('hide')
                 }
             }
         }).mount('#app')
