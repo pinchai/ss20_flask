@@ -88,10 +88,18 @@
                         >Close
                         </button>
                         <button
+                                v-if="status == 'add'"
                                 @click="saveRecord()"
                                 type="button"
                                 class="btn btn-outline-primary"
                         >Save
+                        </button>
+                        <button
+                                v-if="status == 'update'"
+                                @click="updateRecord()"
+                                type="button"
+                                class="btn btn-outline-primary"
+                        >Update
                         </button>
                     </div>
                 </div>
@@ -199,13 +207,15 @@
             data() {
                 return {
                     form: {
+                        'id': null,
                         'name': null,
                         'gender': 'female',
                         'phone': null,
                         'email': '@mail.com',
                         'address': null,
                     },
-                    user_list: []
+                    user_list: [],
+                    status: 'add'
                 }
             },
             methods: {
@@ -213,6 +223,21 @@
                     let vm = this
                     $.LoadingOverlay("show");
                     let api_url = 'http://127.0.0.1:5000/saveRecord'
+                    axios.post(api_url, vm.form)
+                        .then(function (response) {
+                            console.log(response)
+                            $.LoadingOverlay("hide");
+                            vm.clearForm()
+                            vm.getUserList()
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                },
+                updateRecord() {
+                    let vm = this
+                    $.LoadingOverlay("show");
+                    let api_url = 'http://127.0.0.1:5000/updateRecord'
                     axios.post(api_url, vm.form)
                         .then(function (response) {
                             console.log(response)
@@ -244,11 +269,13 @@
 
                 },
                 editRecord(item) {
+                    this.form.id = item.id
                     this.form.name = item.name
                     this.form.gender = item.gender
                     this.form.phone = item.phone
                     this.form.email = item.email
                     this.form.address = item.address
+                    this.status = 'update'
                     $('#popup_modal').modal('show')
                 },
                 getUserList() {
@@ -265,6 +292,7 @@
                         })
                 },
                 clearForm() {
+                    this.form.id = null
                     this.form.name = null
                     this.form.gender = 'female'
                     this.form.phone = null

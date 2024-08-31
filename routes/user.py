@@ -49,3 +49,18 @@ def saveRecord():
     print(result)
     return f"{name} - {gender} - {phone} - {email} - {address}"
 
+
+@app.post('/updateRecord')
+def updateRecord():
+    form = request.get_json()
+    id = form.get('id')
+    name = form.get('name')
+    gender = form.get('gender')
+    phone = form.get('phone')
+    email = form.get('email')
+    address = form.get('address')
+
+    result = connection.execute(text(f"UPDATE `user` SET NAME = '{name}',gender = '{gender}',phone = '{phone}',email = '{email}',address = '{address}' WHERE id = {id}"))
+    connection.commit()
+    print(result)
+    return f"{name} - {gender} - {phone} - {email} - {address}"
