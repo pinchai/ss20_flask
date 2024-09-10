@@ -1,6 +1,24 @@
 {% extends 'master.html' %}
 {% block content %}
     <div id="app">
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">User Page</h1>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">User Page</li>
+                        </ol>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
         <!-- Modal -->
         <div
                 class="modal fade"
@@ -17,11 +35,11 @@
                     </div>
                     <div class="modal-body">
                         <form>
-                            <input
-                                    type="hidden"
-                                    id="id"
-                                    name="id"
-                            >
+                            <div class="card bg-white">
+                                <img style="" :src="form.image" alt="">
+                                <input @change="handleImage" class="custom-input" type="file" accept="image/*">
+                            </div>
+                            <hr>
                             <div class="form-row">
                                 <div class="form-group col-12">
                                     <label for="name">Name</label>
@@ -106,24 +124,6 @@
             </div>
         </div>
 
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">User Page</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">User Page</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
-
 
         <!-- Main content -->
         <div class="content">
@@ -148,6 +148,7 @@
                                         <thead>
                                         <tr class="bg-primary">
                                             <th>No.</th>
+                                            <th>Profile</th>
                                             <th>Name</th>
                                             <th>Gender</th>
                                             <th>Phone</th>
@@ -162,6 +163,13 @@
                                                 :key="'user_'+index"
                                         >
                                             <td>[[ index + 1]]</td>
+                                            <td>
+                                                <img
+                                                        onerror="this.src='/static/image_error.png';"
+                                                        :src="'/static/uploaded_images/'+item.image"
+                                                        style="width: 50px; height: 50px"
+                                                >
+                                            </td>
                                             <td>[[ item.name ]]</td>
                                             <td>[[ item.gender ]]</td>
                                             <td>[[ item.phone ]]</td>
@@ -196,6 +204,7 @@
     </div>
 {% endblock %}
 
+
 {% block script %}
     <script>
         const {createApp} = Vue
@@ -213,6 +222,7 @@
                         'phone': null,
                         'email': '@mail.com',
                         'address': null,
+                        'image': null,
                     },
                     user_list: [],
                     status: 'add'
@@ -232,6 +242,7 @@
                         })
                         .catch(function (error) {
                             console.log(error);
+                            $.LoadingOverlay("hide");
                         })
                 },
                 updateRecord() {
@@ -299,7 +310,19 @@
                     this.form.email = '@mail.com'
                     this.form.address = null
                     $('#popup_modal').modal('hide')
-                }
+                },
+                handleImage(e) {
+                    const selectedImage = e.target.files[0]; // get first file
+                    this.createBase64Image(selectedImage);
+                },
+                createBase64Image(fileObject) {
+                    const reader = new FileReader();
+
+                    reader.onload = (e) => {
+                        this.form.image = e.target.result;
+                    };
+                    reader.readAsDataURL(fileObject);
+                },
             }
         }).mount('#app')
     </script>
