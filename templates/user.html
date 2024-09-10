@@ -184,7 +184,7 @@
                                                     Edit
                                                 </button>
                                                 <button
-                                                        @click="deleteRecord(index)"
+                                                        @click="deleteRecord(item.id)"
                                                         class="btn btn-sm btn-outline-danger"
                                                 >
                                                     <i class="fas fa-trash-restore"></i>
@@ -264,6 +264,7 @@
                     $('#popup_modal').modal('show')
                 },
                 deleteRecord(id) {
+                    let vm = this
                     Swal.fire({
                         title: "Do you want to save the changes?",
                         showDenyButton: false,
@@ -274,7 +275,26 @@
                         .then((result) => {
                             if (result.isConfirmed) {
                                 this.user_list.splice(id, 1);
-                                Swal.fire("Delete Successfully", "", "success");
+                                $.LoadingOverlay("show");
+                                let api_url = 'http://127.0.0.1:5000/deleteRecord'
+                                axios.post(api_url, {id: id})
+                                    .then(function (response) {
+                                        $.LoadingOverlay("hide");
+                                        vm.getUserList()
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                        $.LoadingOverlay("hide");
+                                    })
+
+
+                                Swal.fire({
+                                    position: "top-end",
+                                    icon: "success",
+                                    title: "Delete Successfully",
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                });
                             }
                         });
 

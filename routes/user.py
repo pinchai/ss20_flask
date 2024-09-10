@@ -77,9 +77,7 @@ def updateRecord():
 def deleteRecord():
     form = request.get_json()
     id = form.get('id')
-
     result = connection.execute(text(f"Delete From `user` WHERE id = {id}"))
     connection.commit()
-    print(result)
     return f"Delete successfully"
 
