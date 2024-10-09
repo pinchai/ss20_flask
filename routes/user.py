@@ -49,9 +49,11 @@ def saveRecord():
     address = form.get('address')
 
     base64_string = request.json['image']
-    image_path = os.path.join(IMAGE_DIR)
-    image_name = f"{time.time()}.png"
-    file = file_upload.upload(base64_string, image_path, image_name)
+    image_name = None
+    if base64_string:
+        image_path = os.path.join(IMAGE_DIR)
+        image_name = f"{time.time()}.png"
+        file = file_upload.upload(base64_string, image_path, image_name)
     result = connection.execute(text(f"INSERT INTO `user` VALUES(null,'{name}', '{gender}', '{phone}', '{email}', '{address}', '{image_name}')"))
     connection.commit()
     return f"{name} - {gender} - {phone} - {email} - {address}"
@@ -66,10 +68,17 @@ def updateRecord():
     phone = form.get('phone')
     email = form.get('email')
     address = form.get('address')
+    return str(form), 500
+
+    base64_string = request.json['image']
+    image_name = request.json['image']
+    if base64_string:
+        image_path = os.path.join(IMAGE_DIR)
+        image_name = f"{time.time()}.png"
+        file = file_upload.upload(base64_string, image_path, image_name)
 
     result = connection.execute(text(f"UPDATE `user` SET NAME = '{name}',gender = '{gender}',phone = '{phone}',email = '{email}',address = '{address}' WHERE id = {id}"))
     connection.commit()
-    print(result)
     return f"{name} - {gender} - {phone} - {email} - {address}"
 
 

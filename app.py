@@ -12,7 +12,6 @@ CORS(app)
 IMAGE_DIR = 'static/uploaded_images'
 os.makedirs(IMAGE_DIR, exist_ok=True)
 
-
 import routes
 
 

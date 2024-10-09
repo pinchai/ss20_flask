@@ -103,14 +103,15 @@
                     data-accordion="false">
                     {# dashbord menu#}
                     <li class="nav-item">
-                        <a href="{{ url_for('dashboard') }}" class="nav-link {{ 'active' if module == 'dashboard' else '' }}">
+                        <a href="{{ url_for('dashboard') }}"
+                           class="nav-link {{ 'active' if module == 'dashboard' else '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     {# user menu#}
                     <li class="nav-item">
-                        <a href="{{  url_for('user') }}" class="nav-link {{ 'active' if module == 'user' else '' }}">
+                        <a href="{{ url_for('user') }}" class="nav-link {{ 'active' if module == 'user' else '' }}">
                             <i class="nav-icon fas fa-users"></i>
                             <p>User</p>
                         </a>
@@ -181,7 +182,46 @@
 </div>
 
 {% include 'footer_script.html' %}
+<script>
 
+    // Set a default base URL
+    axios.defaults.baseURL = 'http://' + window.location.hostname + ':' + window.location.port;
+
+    axios.interceptors.request.use(
+        (config) => {
+            //config.headers['Authorization'] = 'Bearer your-token-here';
+            config.headers['Content-Type'] = 'application/json';
+            $.LoadingOverlay("show", {
+                background: "rgba(0,0,0,0.1)",
+            });
+            return config;
+        },
+        (error) => {
+            return Promise.reject(error);
+        }
+    );
+
+    axios.interceptors.response.use(function (response) {
+        $.LoadingOverlay('hide');
+        return response;
+    }, function (error) {
+        console.log(error.response.data)
+
+        if (error.status == 500) {
+            $.LoadingOverlay('hide');
+
+            Swal.fire({
+                //position: "top-end",
+                icon: "error",
+                title: error.message,
+                html: error.response.data,
+                showConfirmButton: false,
+            });
+        } else {
+            $.LoadingOverlay('hide');
+        }
+    });
+</script>
 {% block script %}{% endblock %}
 </body>
 </html>

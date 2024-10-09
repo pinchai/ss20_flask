@@ -24,84 +24,91 @@
                 class="modal fade"
                 id="popup_modal" data-backdrop="static"
                 data-keyboard="false" tabindex="-1"
-                aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
+                aria-labelledby="staticBackdropLabel" aria-hidden="true"
+        >
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <h5 class="modal-title" id="staticBackdropLabel">User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <form>
-                            <div class="card bg-white">
-                                <img style="" :src="form.image" alt="">
-                                <input @change="handleImage" class="custom-input" type="file" accept="image/*">
-                            </div>
-                            <hr>
-                            <div class="form-row">
-                                <div class="form-group col-12">
-                                    <label for="name">Name</label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="name"
-                                            name="name"
-                                            required
-                                            v-model="form.name"
-                                    >
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="card bg-white">
+                                        <img style="" :src="form.image" alt="">
+                                        <input @change="handleImage" class="custom-input" type="file" accept="image/*">
+                                    </div>
                                 </div>
-                                <div class="form-group col-12">
-                                    <label for="gender">Gender</label>
-                                    <select
-                                            id="gender"
-                                            name="gender"
-                                            class="form-control"
-                                            v-model="form.gender"
-                                    >
-                                        <option value="male" selected>Male</option>
-                                        <option value="female">Female</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-12">
-                                    <label for="phone">Phone</label>
-                                    <input
-                                            type="text"
-                                            class="form-control"
-                                            id="phone"
-                                            name="phone"
-                                            v-model="form.phone"
-                                    >
-                                </div>
-                                <div class="form-group col-12">
-                                    <label for="email">Email</label>
-                                    <input
-                                            type="email"
-                                            class="form-control"
-                                            id="email"
-                                            name="email"
-                                            v-model="form.email"
+                                <div class="col-8">
+                                    <div class="form-row">
+                                        <div class="form-group col-12">
+                                            <label for="name">Name</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="name"
+                                                    name="name"
+                                                    required
+                                                    v-model="form.name"
+                                            >
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label for="gender">Gender</label>
+                                            <select
+                                                    id="gender"
+                                                    name="gender"
+                                                    class="form-control"
+                                                    v-model="form.gender"
+                                            >
+                                                <option value="male" selected>Male</option>
+                                                <option value="female">Female</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label for="phone">Phone</label>
+                                            <input
+                                                    type="text"
+                                                    class="form-control"
+                                                    id="phone"
+                                                    name="phone"
+                                                    v-model="form.phone"
+                                            >
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label for="email">Email</label>
+                                            <input
+                                                    type="email"
+                                                    class="form-control"
+                                                    id="email"
+                                                    name="email"
+                                                    v-model="form.email"
 
-                                    >
-                                </div>
-                                <div class="form-group col-12">
-                                    <label for="address">Address</label>
-                                    <textarea
-                                            class="form-control"
-                                            id="address"
-                                            name="address"
-                                            rows="5"
-                                            v-model="form.address"
-                                    >[[ form.address ]]</textarea>
+                                            >
+                                        </div>
+                                        <div class="form-group col-12">
+                                            <label for="address">Address</label>
+                                            <textarea
+                                                    class="form-control"
+                                                    id="address"
+                                                    name="address"
+                                                    rows="5"
+                                                    v-model="form.address"
+                                            >[[ form.address ]]</textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button
                                 type="button"
-                                class="float-left btn btn-outline-danger"
+                                class="float-right btn btn-outline-danger"
                                 data-dismiss="modal"
                         >Close
                         </button>
@@ -165,8 +172,14 @@
                                             <td>[[ index + 1]]</td>
                                             <td>
                                                 <img
+                                                        v-if="item.image != 'None'"
                                                         onerror="this.src='/static/image_error.png';"
                                                         :src="'/static/uploaded_images/'+item.image"
+                                                        style="width: 50px; height: 50px"
+                                                >
+                                                <img
+                                                        v-else
+                                                        src="/static/no-image.png"
                                                         style="width: 50px; height: 50px"
                                                 >
                                             </td>
@@ -223,6 +236,7 @@
                         'email': '@mail.com',
                         'address': null,
                         'image': null,
+                        'old_image': null,
                     },
                     user_list: [],
                     status: 'add'
@@ -231,8 +245,8 @@
             methods: {
                 saveRecord() {
                     let vm = this
-                    $.LoadingOverlay("show");
-                    let api_url = 'http://127.0.0.1:5000/saveRecord'
+                    //$.LoadingOverlay("show");
+                    let api_url = '/saveRecord'
                     axios.post(api_url, vm.form)
                         .then(function (response) {
                             console.log(response)
@@ -247,12 +261,10 @@
                 },
                 updateRecord() {
                     let vm = this
-                    $.LoadingOverlay("show");
-                    let api_url = 'http://127.0.0.1:5000/updateRecord'
+                    //$.LoadingOverlay("show");
+                    let api_url = '/updateRecord'
                     axios.post(api_url, vm.form)
                         .then(function (response) {
-                            console.log(response)
-                            $.LoadingOverlay("hide");
                             vm.clearForm()
                             vm.getUserList()
                         })
@@ -275,16 +287,16 @@
                         .then((result) => {
                             if (result.isConfirmed) {
                                 this.user_list.splice(id, 1);
-                                $.LoadingOverlay("show");
-                                let api_url = 'http://127.0.0.1:5000/deleteRecord'
+                                //$.LoadingOverlay("show");
+                                let api_url = '/deleteRecord'
                                 axios.post(api_url, {id: id})
                                     .then(function (response) {
-                                        $.LoadingOverlay("hide");
+                                        //$.LoadingOverlay("hide");
                                         vm.getUserList()
                                     })
                                     .catch(function (error) {
                                         console.log(error);
-                                        $.LoadingOverlay("hide");
+                                        //$.LoadingOverlay("hide");
                                     })
 
 
@@ -306,13 +318,16 @@
                     this.form.phone = item.phone
                     this.form.email = item.email
                     this.form.address = item.address
+                    this.form.image = '/static/uploaded_images/' + item.image
+                    this.form.old_image = item.image
                     this.status = 'update'
+                    //return;
                     $('#popup_modal').modal('show')
                 },
                 getUserList() {
                     let vm = this
-                    $.LoadingOverlay("show");
-                    let api_url = 'http://127.0.0.1:5000/userList'
+                    //$.LoadingOverlay("show");
+                    let api_url = '/userList'
                     axios.get(api_url)
                         .then(function (response) {
                             vm.user_list = response.data
