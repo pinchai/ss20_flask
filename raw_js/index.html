@@ -7,27 +7,11 @@
 <body>
 <div id="app">
     <center>
-        <h3>Calculator</h3>
-        <label for="value_a">Value A</label>
-        <input :disabled="disable_a" id="value_a" type="number" v-model="value_a">
-        <br>
-        <br>
-        <label for="value_b">Value B</label>
-        <input id="value_b" type="number" v-model="value_b">
-        <br>
-        <br>
-        <input type="button" value="Sum" @click="sum">
-        <input type="button" value="Minus" @click="minus">
-        <input type="button" value="Multiply" @click="multiply">
-        <input type="button" value="Divide" @click="divide">
-        <br>
-        <br>
-        <h3 :style="style">Result(A {{ ops }} B) : {{ result }}</h3>
-        <img :src="'./'+image">
-        <hr>
-        <input type="button" value="disable input A" @click="disableA">
-        <input type="button" value="change color" @click="change_color">
-        <input type="button" value="change image" @click="change_image">
+        <img
+                v-for="(item, index) in 100" src="2.png"
+                :key="'index_'+index"
+                loading="eager|lazy"
+        >
     </center>
 </div>
 </body>
