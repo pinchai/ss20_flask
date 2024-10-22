@@ -37,6 +37,7 @@
                     <div class="modal-body">
                         <form>
                             <div class="row">
+                                <h1>[[ form.image_change ]]</h1>
                                 <div class="col-4">
                                     <div class="card bg-white">
                                         <img style="" :src="form.image" alt="">
@@ -237,9 +238,10 @@
                         'address': null,
                         'image': null,
                         'old_image': null,
+                        'image_change': false
                     },
                     user_list: [],
-                    status: 'add'
+                    status: 'add',
                 }
             },
             methods: {
@@ -349,6 +351,7 @@
                 handleImage(e) {
                     const selectedImage = e.target.files[0]; // get first file
                     this.createBase64Image(selectedImage);
+                    this.form.image_change = true
                 },
                 createBase64Image(fileObject) {
                     const reader = new FileReader();

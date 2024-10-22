@@ -68,16 +68,22 @@ def updateRecord():
     phone = form.get('phone')
     email = form.get('email')
     address = form.get('address')
-    return str(form), 500
+    image_change = form.get('image_change')
+    old_image = form.get('old_image')
+    # return str(form), 500
 
-    base64_string = request.json['image']
-    image_name = request.json['image']
-    if base64_string:
-        image_path = os.path.join(IMAGE_DIR)
-        image_name = f"{time.time()}.png"
-        file = file_upload.upload(base64_string, image_path, image_name)
+    current_image = None
+    if image_change == True:
+        base64_string = request.json['image']
+        if base64_string:
+            image_path = os.path.join(IMAGE_DIR)
+            image_name = f"{time.time()}.png"
+            file = file_upload.upload(base64_string, image_path, image_name)
+            current_image = image_name
+        else:
+            current_image = old_image
 
-    result = connection.execute(text(f"UPDATE `user` SET NAME = '{name}',gender = '{gender}',phone = '{phone}',email = '{email}',address = '{address}' WHERE id = {id}"))
+    result = connection.execute(text(f"UPDATE `user` SET NAME = '{name}',gender = '{gender}',phone = '{phone}',email = '{email}',address = '{address}', profile = '{current_image}' WHERE id = {id}"))
     connection.commit()
     return f"{name} - {gender} - {phone} - {email} - {address}"
 
