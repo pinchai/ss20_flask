@@ -37,14 +37,40 @@
                     <div class="modal-body">
                         <form>
                             <div class="row">
-                                <h1>[[ form.image_change ]]</h1>
-                                <div class="col-4">
+                                <div v-if="false" class="col-4">
                                     <div class="card bg-white">
                                         <img style="" :src="form.image" alt="">
                                         <input @change="handleImage" class="custom-input" type="file" accept="image/*">
                                     </div>
                                 </div>
-                                <div class="col-8">
+                                <div class="col-5">
+                                    <!-- File Input -->
+                                    <input type="file" @change="onFileChange" accept="image/*"/>
+                                    <!-- Image Preview Area -->
+                                    <div v-if="imageUrl" style="width: 300px; height: 300px">
+                                        <img id="image" :src="imageUrl" alt="Source Image"/>
+                                    </div>
+                                    <br>
+                                    <!-- Crop Button -->
+                                    <a
+                                            style="width: 100%;"
+                                            class="btn btn-primary"
+                                            href="#"
+                                            v-if="imageUrl"
+                                            @click="cropImage"
+                                    >Crop</a>
+                                </div>
+
+                                <div class="col-7">
+                                    <center>
+                                        <!-- Cropped Image Preview -->
+                                        <img
+                                                v-if="croppedImage"
+                                                :src="croppedImage"
+                                                alt="Cropped Image"
+                                                style="width: 100px; height: 150px"
+                                        />
+                                    </center>
                                     <div class="form-row">
                                         <div class="form-group col-12">
                                             <label for="name">Name</label>
@@ -176,12 +202,12 @@
                                                         v-if="item.image != 'None'"
                                                         onerror="this.src='/static/image_error.png';"
                                                         :src="'/static/uploaded_images/'+item.image"
-                                                        style="width: 50px; height: 50px"
+                                                        style="width: 50px; height: 70px"
                                                 >
                                                 <img
                                                         v-else
                                                         src="/static/no-image.png"
-                                                        style="width: 50px; height: 50px"
+                                                        style="width: 50px; height: 70px"
                                                 >
                                             </td>
                                             <td>[[ item.name ]]</td>
@@ -242,6 +268,10 @@
                     },
                     user_list: [],
                     status: 'add',
+
+                    imageUrl: null,
+                    croppedImage: null,
+                    cropper: null
                 }
             },
             methods: {
@@ -320,7 +350,8 @@
                     this.form.phone = item.phone
                     this.form.email = item.email
                     this.form.address = item.address
-                    this.form.image = '/static/uploaded_images/' + item.image
+                    //this.form.image = '/static/uploaded_images/' + item.image
+                    this.croppedImage = '/static/uploaded_images/' + item.image
                     this.form.old_image = item.image
                     this.status = 'update'
                     //return;
@@ -361,6 +392,40 @@
                     };
                     reader.readAsDataURL(fileObject);
                 },
+
+                onFileChange(e) {
+                    const file = e.target.files[0];
+                    if (file && file.type.startsWith('image/')) {
+                        this.form.image_change = true
+                        this.loadImage(file);
+                    }
+                },
+                loadImage(file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        this.imageUrl = event.target.result;
+
+                        // Ensure Cropper.js is re-initialized when a new image is loaded
+                        this.$nextTick(() => {
+                            const image = document.getElementById('image');
+                            if (this.cropper) {
+                                this.cropper.destroy(); // Destroy previous cropper instance
+                            }
+                            this.cropper = new Cropper(image, {
+                                aspectRatio: 1 / 1.5, // Set your desired aspect ratio
+                                viewMode: 1
+                            });
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                },
+                cropImage() {
+                    if (this.cropper) {
+                        const canvas = this.cropper.getCroppedCanvas();
+                        this.croppedImage = canvas.toDataURL('image/png');
+                        this.form.image = canvas.toDataURL('image/png');
+                    }
+                }
             }
         }).mount('#app')
     </script>
